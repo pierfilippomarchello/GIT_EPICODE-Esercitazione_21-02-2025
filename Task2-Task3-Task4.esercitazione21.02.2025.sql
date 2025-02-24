@@ -138,19 +138,17 @@ inner join country on region.IDcountry = country.IDcountry
 -- 3) Esporre l’elenco dei prodotti che hanno venduto, in totale, una quantità maggiore della media delle vendite realizzate nell’ultimo anno censito. (ogni valore della condizione deve risultare da una query e non deve essere inserito a mano). Nel result set devono comparire solo il codice prodotto e il totale venduto.
 -- codice prodotto e il totale venduto 
 
-SELECT sales.IDproduct, SUM(sales.orderquantity) AS total_quantity
-FROM sales
-GROUP BY sales.IDproduct
-HAVING SUM(sales.orderquantity) > (
-    SELECT AVG(product_sales.total_quantity)
-    FROM (
-        SELECT IDproduct, SUM(orderquantity) AS total_quantity
-        FROM sales
-        WHERE YEAR(orderdate) = (SELECT MAX(YEAR(orderdate)) FROM sales)
-        GROUP BY IDproduct
-    ) AS product_sales
-);
-;
+-- SELECT IDproduct, SUM(orderquantity) AS Quantità_Totale_Venduta
+-- FROM sales
+-- WHERE YEAR(orderdate) = (SELECT MAX(YEAR(orderdate)) FROM sales)  -- Filtra solo l'anno più recente
+-- GROUP BY IDproduct
+-- HAVING SUM(orderquantity) > (
+    -- SELECT AVG(SUM(orderquantity))  -- Calcola la media delle vendite totali per prodotto
+    -- FROM sales
+   --  WHERE YEAR(orderdate) = (SELECT MAX(YEAR(orderdate)) FROM sales)  
+    -- GROUP BY IDproduct );
+    
+    
 -- 4)	Esporre l’elenco dei soli prodotti venduti e per ognuno di questi il fatturato totale per anno
 
 SELECT product.englishproductdescription AS elenco_prodotti_venduti, sum(sales.sales_amount) as fatturato_totale_peranno, YEAR(sales.orderdate) as annualità
